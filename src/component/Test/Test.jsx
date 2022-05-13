@@ -20,22 +20,27 @@ const Test = () => {
     const [rowData, setrowData] = useState([])
     const [columnDefs, setcolumnDefs] = useState([])
 
+    const [Arr, setArr] = useState([])
+
     useEffect(
         () => {
 
             axios.get('https://jsonplaceholder.typicode.com/comments').then(
                 res => {
                     console.log(res.data)
-                    let id = res.data[0].id
-                    let email = res.data[0].email
-                    let name = res.data[0].name
-                    let body = res.data[0].body
-                    let postId = res.data[0].postId
-                    setid(id)
-                    setemail(email)
-                    setname(name)
-                    setbody(body)
-                    setpostid(postId)
+
+                    setArr(res.data)
+
+                    // let id = res.data[0].id
+                    // let email = res.data[0].email
+                    // let name = res.data[0].name
+                    // let body = res.data[0].body
+                    // let postId = res.data[0].postId
+                    // setid(id)
+                    // setemail(email)
+                    // setname(name)
+                    // setbody(body)
+                    // setpostid(postId)
                 }
             ).catch(
                 err => {
@@ -45,7 +50,7 @@ const Test = () => {
 
             setrowData(
                 [
-                    { id: id, name: name, email: email, body: body, postId: postid },
+                    { id: Arr.id, name: Arr.name, email: Arr.email, body: Arr.body, postId: Arr.postid },
                     
                 ]
             )
@@ -60,7 +65,7 @@ const Test = () => {
                 ]
             )
 
-        }, [id, email, name, body, postid]
+        }, []
     )
 
     return (
@@ -73,6 +78,37 @@ const Test = () => {
                     columnDefs={columnDefs}>
                 </AgGridReact>
 
+
+                {/* This is my approach */}
+
+                <div className="Test_grid">
+                    <div>ID</div>
+                    <div>Post ID</div>
+                    <div>Name</div>
+                    <div>Email</div>
+                    <div>Body</div>
+                </div>
+
+                {
+                    Arr.map(
+                        (val, index) => {
+                            return (
+                                <>
+                                    <div className="Test_grid">
+                                        <div>{val.id}</div>
+                                        <div>{val.postId}</div>
+                                        <div>{val.name}</div>
+                                        <div>{val.email}</div>
+                                        <div>{val.body}</div>
+                                    </div>
+                                </>
+                            )
+                        }
+                    )
+                }
+
+                
+
             </div>
 
         </>
@@ -81,4 +117,4 @@ const Test = () => {
 
 }
 
-export default Test;
+export default Test
